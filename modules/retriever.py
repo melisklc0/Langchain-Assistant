@@ -1,4 +1,4 @@
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain.schema import Document
 from typing import List, Optional
 import os
@@ -19,12 +19,7 @@ def get_relevant_documents(query_text: str, db, k: int = 3, threshold: float = 0
         print(f"Hata: {e}")
         return " "
         
-    retriever = db.as_retriever(
-        search_type="similarity_score_threshold",
-        search_kwargs={"k": k, "score_threshold": threshold},
-    )
-
-    results = retriever.invoke(query_text)
+    results = db.similarity_search_with_score(query_text, k=3)
     if len(results) == 0:
         print("Alakalı belgeler bulunamadı.")
         return " "

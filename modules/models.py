@@ -1,6 +1,6 @@
 import os
 from langchain_openai import ChatOpenAI
-from langchain_community.embeddings import SentenceTransformerEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 
 def get_llm():
     """LLM modelini döndürecek."""
@@ -16,6 +16,6 @@ def get_llm():
 
 def get_embedding_model():
     """Embedding modelini döndürecek."""
-    embedding_model = SentenceTransformerEmbeddings(model_name="paraphrase-multilingual-MiniLM-L12-v2")
+    embedding_model = HuggingFaceEmbeddings(model_name="paraphrase-multilingual-MiniLM-L12-v2")
     return embedding_model
     

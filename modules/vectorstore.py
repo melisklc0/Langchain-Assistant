@@ -1,7 +1,7 @@
 import os
 from langchain_community.document_loaders import TextLoader, PyMuPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from pathlib import Path
 from modules.text_splitter import split_documents
 
@@ -56,4 +56,10 @@ def get_vectorstore(chunk_size, chunk_overlap, embedding_model):
         db.persist()
         print("Vectorstore başarıyla kaydedildi.")
         return db     
+
+
+
+
+
+
 
