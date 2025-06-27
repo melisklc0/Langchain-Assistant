@@ -13,24 +13,25 @@ def main():
     data_path = r"D:\Üniversite\Internship-Studies\Langchain-Studies\Langchain-Assistant\docs\bilgisayar-aglari"
     chroma_path = r"D:\Üniversite\Internship-Studies\Langchain-Studies\Langchain-Assistant\vectorstore\chroma_db_with_metadata"
     
+
     llm = get_llm()
+
     documents = load_pdfs(data_path)
     chunks = split_text(documents)
     db = get_chroma_db(chroma_path, chunks)
-    query = "Bilgisayar ağları nedir?"
-    context_text = get_relevant_documents(query, db, 3, 0.5)
 
+    query = "UDP protokolünün genel yapısı nasıldır'?"
+    context_text = get_relevant_documents(query, db, 5, 0.7)
 
     prompt = ChatPromptTemplate.from_template(
-        "Aşağıdaki bağlamı kullanarak soruyu yanıtla. Yalnızca bağlamda bulunan bilgileri kullan."
-        " Eğer bilmiyorsan, 'Bilmiyorum' olarak cevap ver."
-        " \n\n{context}\n\nSoru: {question}\n\nCevap:"
+        "Sen bir üniversitede asistansın. Öğrencilerden gelen sorulara cevap vererek konu anlatıyorsun."
+        "Bu konuları detaylı bir şekilde anlatman gerekiyor."
+        "\n\n{context}\n\nSoru: {question}\n\nCevap:" 
     )
-    print("\nPrompt template created:")
 
     chain = prompt | llm | StrOutputParser()
     response = chain.invoke({"context": context_text, "question": query})
-    print("\nModel response:")
+    print("\nModelin cevabı:")
     print(response)
 
 
