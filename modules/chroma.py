@@ -14,19 +14,15 @@ def get_chroma_db(chroma_path: str, chunks: list[Document]):
     embedding_function = get_embedding_model()
 
     if os.path.exists(chroma_path):
-        print(f"Var olan Chroma vectorstore bulundu, yükleniyor.")
-        db = Chroma(
-            persist_directory=chroma_path, 
-            embedding_function=embedding_function)
-        return db
-    else:
-        print(f"Chroma vectorstore bulunamadı, yeni oluşturulacak.")
-        db = Chroma.from_documents(
-            chunks, embedding_function, persist_directory=chroma_path
-        )
-        db.persist() # database'i diske kaydeder
-        print(f"Chroma vectorstore başarıyla kaydedildi.")
-        return db
+        print(f"Var olan Chroma vectorstore bulundu, siliniyor.")
+        shutil.rmtree(chroma_path)
+    
+    print(f"Chroma vectorstore oluşturuluyor.")
+    db = Chroma.from_documents(
+        chunks, embedding_function, persist_directory=chroma_path
+    )
+    print(f"Chroma vectorstore başarıyla kaydedildi.")
+    return db
 
 """ kullanım örneği
 from modules.doc_loader import load_pdfs
