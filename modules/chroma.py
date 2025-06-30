@@ -15,10 +15,12 @@ def get_chroma_db(chroma_path: str, chunks: list[Document]):
 
     try:
         if os.path.exists(chroma_path):
-            print(f"Var olan Chroma vectorstore bulundu, siliniyor.")
-            shutil.rmtree(chroma_path)
+            print(f"Var olan Chroma vectorstore bulundu, yükleniyor.")
+            db = Chroma(persist_directory=chroma_path, embedding_function=embedding_function)
+            print(f"Chroma vectorstore başarıyla yüklendi.")
+            return db
     except Exception as e:
-        print(f"Chroma vectorstore silinirken hata oluştu: {e}")
+        print(f"Chroma vectorstore yüklenirken hata oluştu: {e}")
         return None
 
     try:
