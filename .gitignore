@@ -13,3 +13,4 @@ wheels/
 modules/vectorstore.py
 
 ana-kod.py
+.venv2
