@@ -9,8 +9,4 @@ wheels/
 # Virtual environments
 .venv
 .env
-
-modules/vectorstore.py
-
-ana-kod.py
 .venv2
