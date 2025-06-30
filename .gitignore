@@ -10,3 +10,6 @@ wheels/
 .venv
 .env
 .venv2
+
+ana-kod.py
+modules/vectorstore.py
