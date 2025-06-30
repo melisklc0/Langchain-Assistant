@@ -6,7 +6,7 @@ def get_llm():
     """LLM modelini döndürecek."""
     OPENROUTER_API_BASE = "https://openrouter.ai/api/v1"
     OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-    if not api_key:
+    if not OPENROUTER_API_KEY:
         raise EnvironmentError("OPENROUTER_API_KEY ortam değişkeni ayarlanmamış.")
     try:
         llm = ChatOpenAI(

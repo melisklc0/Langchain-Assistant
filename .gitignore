@@ -12,3 +12,7 @@ wheels/
 .venv2
 
 notes.md
+=======
+ana-kod.py
+modules/vectorstore.py
+
