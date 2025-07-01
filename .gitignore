@@ -13,3 +13,5 @@ wheels/
 
 ana-kod.py
 modules/vectorstore.py
+
+firebase/
