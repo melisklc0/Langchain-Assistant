@@ -9,12 +9,13 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.chains import RetrievalQA
 from langchain.schema.output_parser import StrOutputParser
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
+from modules.agents import run_react_agent
 
 
 def main():
 
-    data_path = r"D:\Üniversite\Internship-Studies\Langchain-Studies\Langchain-Assistant\docs\bilgisayar-aglari"
-    chroma_path = r"D:\Üniversite\Internship-Studies\Langchain-Studies\Langchain-Assistant\vectorstore\chroma_db_with_metadata"
+    data_path = r"D:\Üniversite\Langchain-Assistant\docs\bilgisayar-aglari"
+    chroma_path = r"D:\Üniversite\Langchain-Assistant\vectorstore\chroma_db_with_metadata"
 
     load_dotenv(r"D:\Üniversite\Langchain-Assistant\.env")
     llm = get_llm()
@@ -42,7 +43,9 @@ def main():
         "\n\n{context}\n\nSoru: {question}\n\nCevap:"
     )
 
-    chain = prompt | llm | StrOutputParser()
+    rag_chain = prompt | llm | StrOutputParser()
+
+    run_react_agent()
 
     while True:
         query = input("Soru (çıkmak için exit): ")
@@ -50,16 +53,16 @@ def main():
             break
 
         context_text = get_relevant_documents(query, db)
-        response = chain.invoke({"context": context_text, "question": query})
+        response = rag_chain.invoke({"context": context_text, "question": query})
 
         chat_history.append(HumanMessage(content=query))
         chat_history.append(AIMessage(content=response))
 
         print(f"Cevap: {response} \n")
 
-    print("\n---- Sohbet Geçmişi ----")
+    """print("\n---- Sohbet Geçmişi ----")
     for message in chat_history:
-        print(f"{message.type.capitalize()}: {message.content}")
+        print(f"{message.type.capitalize()}: {message.content}")"""
 
     
 
