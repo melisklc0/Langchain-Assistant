@@ -28,7 +28,6 @@ def load_url(url_path: str):
     """ URL'den içerik yükleyecek fonksiyon """
     load_dotenv(r"D:\Üniversite\Langchain-Assistant\.env")
     user_agent = os.getenv("USER_AGENT")
-    print("User-Agent:", user_agent)
     headers = {
         "User-Agent": user_agent
     }

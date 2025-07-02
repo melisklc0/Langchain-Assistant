@@ -1,5 +1,8 @@
 import os
 from dotenv import load_dotenv
+load_dotenv(r"D:\Üniversite\Langchain-Assistant\.env")
+USER_AGENT = os.getenv("USER_AGENT")
+
 from modules.models import get_embedding_model, get_llm
 from modules.doc_loader import load_pdfs, load_url, load_text_files
 from modules.text_splitter import split_text
@@ -9,6 +12,7 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.chains import RetrievalQA
 from langchain.schema.output_parser import StrOutputParser
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
+import chromadb
 
 
 def main():
@@ -16,7 +20,6 @@ def main():
     data_path = r"D:\Üniversite\Internship-Studies\Langchain-Studies\Langchain-Assistant\docs\bilgisayar-aglari"
     chroma_path = r"D:\Üniversite\Internship-Studies\Langchain-Studies\Langchain-Assistant\vectorstore\chroma_db_with_metadata"
 
-    load_dotenv(r"D:\Üniversite\Langchain-Assistant\.env")
     llm = get_llm()
 
     if os.path.exists(chroma_path):
