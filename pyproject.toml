@@ -17,5 +17,6 @@ dependencies = [
     "sentence-transformers",
     "langchain_community",
     "langchain-huggingface",
-    "langchain_chroma"
+    "langchain_chroma",
+    "firebase-admin"
 ]

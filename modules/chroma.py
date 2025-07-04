@@ -1,5 +1,6 @@
 import os
 import shutil
+from typing import Callable
 from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain_chroma import Chroma
 from langchain.schema import Document
@@ -9,43 +10,26 @@ from modules.text_splitter import split_text
 from modules.models import get_embedding_model
 
 
-def get_chroma_db(chroma_path: str, data_path: str):
+def get_chroma_db(chroma_path: str):
     """Chroma vectorstore'u döndürür."""
     embedding_function = get_embedding_model()
-
-    while True:
-        if os.path.exists(chroma_path):
-            print(f"Var olan Chroma vectorstore bulundu, ne yapmak istersiniz?")
-            print("[y] Eski veritabanını yükle")
-            print("[s] Veritabanını sil ve yeniden oluştur")
-
-            user_input = input("Seçiminiz (y/s): ").strip().lower()
-
-            if user_input == 'y':
-                print(f"Chroma vectorstore yükleniyor...")
-                db = Chroma(persist_directory=chroma_path, embedding_function=embedding_function)
-                print(f"Chroma vectorstore başarıyla yüklendi.")
-                return db
-            elif user_input == 's':
-                print(f"Chroma vectorstore temizleniyor...")
-                clear_chroma_db(chroma_path)
-                break
-            else:
-                print(f"Geçersiz giriş, lütfen 'y' veya 's' girin.")
-                continue
-        else:
-            break       
-    
-    print(f"Chroma vectorstore oluşturuluyor.")
-    documents = load_pdfs(data_path)
-    chunks = split_text(documents)
-    db = create_chroma_db(chroma_path, chunks)
+    db = Chroma(persist_directory=chroma_path, embedding_function=embedding_function)
+    print(f"Chroma vectorstore başarıyla yüklendi.")
     return db
 
 
-def create_chroma_db(chroma_path: str, chunks: list[Document]):
+def create_chroma_db(chroma_path: str, data_path: str, loader_function: Callable[[str], list]):
     """Chroma vectorstore oluşturur."""
     embedding_function = get_embedding_model()
+
+    while True:
+        documents = loader_function(data_path)
+        chunks = split_text(documents)
+
+        if chunks:
+            break
+        print("Eklenecek yeni belge bulunamadı.")
+        data_path = input("Yeni bir veri yolu girin: ")
 
     try:
         print(f"Chroma vectorstore oluşturuluyor.")
@@ -69,3 +53,20 @@ def clear_chroma_db(chroma_path: str):
             print(f"Chroma vectorstore temizlenirken hata oluştu: {e}")
     else:
         print(f"Chroma vectorstore bulunamadı, temizleme işlemi gereksiz.")
+
+
+def add_data_to_chroma_db(db: Chroma, data_path: str, loader_function: Callable[[str], list]):
+    """Var olan bir Chroma vectorstore'a yeni belgeler ekler."""
+
+    documents = loader_function(data_path)
+    chunks = split_text(documents)
+
+    if not chunks:
+        print("Eklenecek yeni belge bulunamadı.")
+        return
+    try:
+        db.add_documents(chunks)
+        print("Yeni belgeler başarıyla Chroma vectorstore'a eklendi.")
+    except Exception as e:
+        print(f"Belgeler eklenirken hata oluştu: {e}")
+
