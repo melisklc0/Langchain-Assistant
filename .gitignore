@@ -14,6 +14,6 @@ wheels/
 notes.md
 =======
 ana-kod.py
-modules/vectorstore.py
+modules/
 
 firebase/
