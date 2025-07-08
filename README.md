@@ -35,7 +35,7 @@ An assistant project using LangChain, designed for document retrieval, question 
 
 5. Run the application:
    ```sh
-   uv run main.py
+   uv run .\src\main.py
    ```
 
 ## Project Structure
