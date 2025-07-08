@@ -39,10 +39,10 @@ An assistant project using LangChain, designed for document retrieval, question 
    ```
 
 ## Project Structure
-- `main.py`: Main application entry points
-- `modules/`: Core logic (document loaders, retrievers, models, etc.)
+- `src/main.py`: Main application entry points
+- `src/core/`: Core logic (document loaders, retrievers, models, etc.)
 - `vectorstore/`: Vector database files
-- `docs/`: Example documents
+- `src/data/`: Example documents
 
 ## Configuration
 - Edit `pyproject.toml` for Python dependencies
