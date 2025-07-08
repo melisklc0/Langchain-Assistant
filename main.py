@@ -12,13 +12,13 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.chains import RetrievalQA
 from langchain.schema.output_parser import StrOutputParser
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
-import chromadb
 
 
 def main():
 
     data_path = r"D:\Üniversite\Internship-Studies\Langchain-Studies\Langchain-Assistant\docs\bilgisayar-aglari"
     chroma_path = r"D:\Üniversite\Internship-Studies\Langchain-Studies\Langchain-Assistant\vectorstore\chroma_db_with_metadata"
+    #relative pathler kullanılabilir 
 
     llm = get_llm()
 
@@ -28,7 +28,7 @@ def main():
         db = create_chroma_db(chroma_path, data_path, load_pdfs)
 
     url_path = ["https://tr.wikipedia.org/wiki/Bilgisayar_a%C4%9F%C4%B1"]
-    add_data_to_chroma_db(db, url_path, load_url)
+    # add_data_to_chroma_db(db, url_path, load_url)
 
     chat_history = [
         SystemMessage(
