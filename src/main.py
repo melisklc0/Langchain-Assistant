@@ -3,11 +3,11 @@ from dotenv import load_dotenv
 load_dotenv(r"D:\Üniversite\Langchain-Assistant\.env")
 USER_AGENT = os.getenv("USER_AGENT")
 
-from modules.models import get_embedding_model, get_llm
-from modules.doc_loader import load_pdfs, load_url, load_text_files
-from modules.text_splitter import split_text
-from modules.chroma import get_chroma_db, create_chroma_db, add_data_to_chroma_db
-from modules.retriever import get_relevant_documents
+from core.models import get_embedding_model, get_llm
+from core.doc_loader import load_pdfs, load_url, load_text_files
+from core.text_splitter import split_text
+from core.chroma import get_chroma_db, create_chroma_db, add_data_to_chroma_db
+from core.retriever import get_relevant_documents
 from langchain.prompts import ChatPromptTemplate
 from langchain.chains import RetrievalQA
 from langchain.schema.output_parser import StrOutputParser
@@ -16,8 +16,9 @@ from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 
 def main():
 
-    data_path = r"D:\Üniversite\Internship-Studies\Langchain-Studies\Langchain-Assistant\docs\bilgisayar-aglari"
-    chroma_path = r"D:\Üniversite\Internship-Studies\Langchain-Studies\Langchain-Assistant\vectorstore\chroma_db_with_metadata"
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(base_dir, "data", "bilgisayar-aglari")
+    chroma_path = os.path.join(base_dir, "..", "vectorstore", "chroma_db_with_metadata")
     #relative pathler kullanılabilir 
 
     llm = get_llm()
