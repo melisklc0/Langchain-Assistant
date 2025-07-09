@@ -20,7 +20,7 @@ An assistant project using LangChain, designed for document retrieval, question 
    ```sh
    pip install uv
    ```   
-2. Create a virtual environment and install dependencies:
+3. Create a virtual environment and install dependencies:
    ```sh
    uv venv
 
